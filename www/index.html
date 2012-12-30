@@ -8,61 +8,104 @@
 <script src="js/jquery.mobile-1.2.0.min.js" type="text/javascript"></script>
 <!-- This reference to cordova.js will allow for code hints as long as the current site has been configured as a mobile application. 
 	 To configure the site as a mobile application, go to Site -> Mobile Applications -> Configure Application Framework... -->
-<script type="text/javascript" src="phonegap.js"></script>
+<script src="/cordova-2.2.0.js" type="text/javascript"></script>
+<script src="http://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>
+
+<script type="text/javascript">
+		var EAT_SAFE = function() {
+			var cur_location;
+			var map;
+			$('#map').live("pageinit", function() {
+					//cur_location = new google.maps.LatLng(40.7142, -74.0064);
+					navigator.geolocation.getCurrentPosition(function(position) {
+							map = new google.maps.Map(document.getElementById("map-canvas"), {
+									center: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
+									zoom: 8,
+									mapTypeId: google.maps.MapTypeId.ROADMAP
+							});
+							/*
+							$('#map').live("pageshow", function() {
+									var latLng = map.getCenter();
+									google.maps.event.trigger(map, 'resize');
+									map.setCenter(latLng);
+							});
+							*/
+					});
+			});
+		}();
+</script>
+
+<style>
+
+#map, #map .ui-content, #map-canvas {
+	width: 100%;
+	height: 100%;
+	padding: 0;
+}
+</style>
+
 </head> 
 <body> 
+<div data-role="page" id="home">
+	<div data-role="header" data-id="app-header" data-position="fixed">
+    	<h1>Eat Safe</h1>
+        <a href="#settings" data-icon="gear" class="ui-btn-right" data-iconpos="notext">Settings</a>
+	</div>
+    <div data-role="content">
+    	<fieldset class="ui-grid-b">
+        	<div class="ui-block-a"></div>
+			<div class="ui-block-b"><a href="#map" data-role="button">I 'm hungry!</a></div>
+            <div class="ui-block-c"></div>	   
+		</fieldset>
+    </div>
+</div>
 
-<div data-role="page" id="page">
-	<div data-role="header">
-		<h1>Page One</h1>
+<div data-role="page" id="map">
+	<div data-role="header" data-id="app-header" data-position="fixed">
+		<h1>Eat Safe</h1>
+        <a href="#home" data-icon="home" class="ui-btn-right" data-iconpos="notext" style="right:40px">Home</a>
+        <a href="#settings" data-icon="gear" class="ui-btn-right" data-iconpos="notext">Settings</a>
 	</div>
 	<div data-role="content">	
-		<ul data-role="listview">
-			<li><a href="#page2">Page Two</a></li>
-            <li><a href="#page3">Page Three</a></li>
-			<li><a href="#page4">Page Four</a></li>
-		</ul>		
-	</div>
-	<div data-role="footer">
-		<h4>Page Footer</h4>
+		<div id="map-canvas"></div>
 	</div>
 </div>
 
-<div data-role="page" id="page2">
-	<div data-role="header">
-		<h1>Page Two</h1>
+<div data-role="page" id="settings">
+	<div data-role="header" data-id="app-header" data-position="fixed">
+		<h1>Eat Safe</h1>
+        <a href="#home" data-icon="check" class="ui-btn-right" data-theme="b">Done</a>
 	</div>
-	<div data-role="content">	
-		Content		
-	</div>
-	<div data-role="footer">
-		<h4>Page Footer</h4>
+    <div data-role="content">	
+		<form action="form.php" method="post">
+        	<div data-role="fieldcontain">
+    			<fieldset data-role="controlgroup">
+	   				<legend>I am allergic to:</legend>
+	   				<input type="checkbox" name="allergic-egg" id="allergic-egg" class="custom" />
+	   				<label for="allergic-egg">Eggs</label>
+                    <input type="checkbox" name="allergic-fish" id="allergic-fish" class="custom" />
+	   				<label for="allergic-fish">Fish</label>
+                    <input type="checkbox" name="allergic-milk" id="allergic-milk" class="custom" />
+	   				<label for="allergic-milk">Milk</label>
+                    <input type="checkbox" name="allergic-peanut" id="allergic-peanut" class="custom" />
+	   				<label for="allergic-peanut">Peanuts</label>
+                    <input type="checkbox" name="allergic-shellfish" id="allergic-shellfish" class="custom" />
+	   				<label for="allergic-shellfish">Shellfish</label>
+                    <input type="checkbox" name="allergic-soy" id="allergic-soy" class="custom" />
+	   				<label for="allergic-soy">Soy</label>
+                    <input type="checkbox" name="allergic-treenut" id="allergic-treenut" class="custom" />
+	   				<label for="allergic-treenut">Treenuts</label>
+                    <input type="checkbox" name="allergic-wheat" id="allergic-wheat" class="custom" />
+	   				<label for="allergic-wheat">Wheat</label>
+    			</fieldset>
+			</div>
+            
+            <div data-role="fieldcontain">
+   				<label for="search-range">Search range (miles):</label>
+   				<input type="range" name="search-range" id="search-range" value="8" min="0" max="50"  />
+            </div>
+        </form>		
 	</div>
 </div>
-
-<div data-role="page" id="page3">
-	<div data-role="header">
-		<h1>Page Three</h1>
-	</div>
-	<div data-role="content">	
-		Content		
-	</div>
-	<div data-role="footer">
-		<h4>Page Footer</h4>
-	</div>
-</div>
-
-<div data-role="page" id="page4">
-	<div data-role="header">
-		<h1>Page Four</h1>
-	</div>
-	<div data-role="content">	
-		Content		
-	</div>
-	<div data-role="footer">
-		<h4>Page Footer</h4>
-	</div>
-</div>
-
 </body>
 </html>
