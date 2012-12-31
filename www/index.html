@@ -99,12 +99,12 @@
 			$('#map').live("pageshow", refreshMap);
 			$('#map').live("pageinit", function() {
 					console.log("inside pageinit");
+					console.log(navigator);
 					navigator.geolocation.getCurrentPosition(function(position) {
 							console.log(position);
 							map.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
 							refreshMap();
 					}, function() {
-						console.log(navigator);
 						console.log("navigator getcurrentposition error");
 					});
 			});
